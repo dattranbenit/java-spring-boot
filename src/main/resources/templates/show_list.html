@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New Employee</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/show_list.css}" />
+</head>
+<body>
+<div>
+    <div>
+        <div>
+            <table>
+                <tr>
+                    <th>Employee Id</th>
+                    <th>Employee Name</th>
+                    <th>Employee Age</th>
+                    <th>Employee Gender</th>
+                </tr>
+                <tr th:each="employee: ${employees}">
+                    <td th:text="${employee.id}"></td>
+                    <td th:text="${employee.name}"></td>
+                    <td th:text="${employee.age}"></td>
+                    <td th:text="${employee.gender}"></td>
+                <tr>
+            </table>
+            <h2>Form to add</h2>
+            <form th:action="@{/register}" th:object="${employee}" method="post">
+                Name: <input th:field="*{name}" type="text">
+                Age: <input th:field="*{age}" type="text">
+                Gender: <input th:field="*{gender}" type="text">
+                <input type="submit" value="Create new">
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
