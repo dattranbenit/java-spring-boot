@@ -1,13 +1,9 @@
 package jmaster.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -51,10 +47,10 @@ public class User implements Serializable {
 	@Column(name = "role")
 	private String role;
 
-	@Column(name = "phone")
-	private String phone;
-
 	@Column(name = "email")
 	private String email;
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<Phone> phoneList;
 
 }

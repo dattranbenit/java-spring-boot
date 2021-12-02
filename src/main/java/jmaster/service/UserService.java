@@ -5,6 +5,12 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import jmaster.controller.LoginController;
+import jmaster.dao.PhoneDao;
+import jmaster.entity.Phone;
+import jmaster.model.PhoneDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +42,11 @@ class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 
+	@Autowired
+	private PhoneDao phoneDao;
+
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
 	@Override
 	public void insert(UserDTO userDTO) {
 		User user = new User();
@@ -47,9 +58,7 @@ class UserServiceImpl implements UserService {
 		user.setPassword((userDTO.getPassword()));
 		user.setGender(userDTO.getGender());
 		user.setAddress(userDTO.getAddress());
-		user.setPhone(userDTO.getPhone());
 		user.setEmail(userDTO.getEmail());
-
 		userDao.insert(user);
 	}
 
@@ -64,7 +73,6 @@ class UserServiceImpl implements UserService {
 			user.setGender(userDTO.getGender());
 			user.setAddress(userDTO.getAddress());
 			user.setEnabled(userDTO.getEnabled());
-			user.setPhone(userDTO.getPhone());
 			user.setEmail(userDTO.getEmail());
 			userDao.update(user);
 		}
@@ -103,10 +111,20 @@ class UserServiceImpl implements UserService {
 	@Override
 	public List<UserDTO> getAll() {
 		List<User> users = userDao.getAll();
+		List<Phone> phones = phoneDao.getAll();
 		List<UserDTO> userDTOs = new ArrayList<UserDTO>();
 		for (User user : users) {
+			List<Phone> temp = new ArrayList<Phone>();
+			for (Phone phone: phones) {
+				if (phone.getUser().getUsername().equals(user.getUsername())) {
+					temp.add(phone);
+					logger.warn(user.getUsername());
+				}
+			}
+			user.setPhoneList(temp);
 			userDTOs.add(convert(user));
 		}
+
 		return userDTOs;
 	}
 
@@ -120,8 +138,8 @@ class UserServiceImpl implements UserService {
 		userDTO.setGender(user.getGender());
 		userDTO.setAddress(user.getAddress());
 		userDTO.setEnabled(user.getEnabled());
-		userDTO.setPhone(user.getPhone());
 		userDTO.setEmail(user.getEmail());
+		userDTO.setPhoneList(user.getPhoneList());
 		return userDTO;
 	}
 

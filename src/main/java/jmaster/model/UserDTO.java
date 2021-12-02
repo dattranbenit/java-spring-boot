@@ -1,6 +1,9 @@
 package jmaster.model;
 
+import jmaster.entity.Phone;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UserDTO {
@@ -15,5 +18,5 @@ public class UserDTO {
 	private String gender;
 	private String phone;
 	private String email;
-
+	private List<Phone> phoneList;
 }
