@@ -19,7 +19,6 @@ import java.util.List;
 
 @Service("userDetailsServiceImpl")
 @Transactional
-//@Component("userDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
@@ -34,7 +33,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
         authorities.add(new SimpleGrantedAuthority(user.getRole()));
-        UserDetails details = new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), true, true, true, true, authorities);
+        UserDetails details = new org.springframework.security.core.userdetails.User(
+                user.getUsername(), user.getPassword(),
+                true, true, true, true, authorities);
         return details;
     }
 }

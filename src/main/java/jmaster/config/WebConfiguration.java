@@ -13,7 +13,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebConfiguration extends WebSecurityConfigurerAdapter {
-
     @Autowired
     UserDetailsServiceImpl userDetailsServiceImpl;
 
@@ -22,12 +21,21 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/user/book").hasAnyRole("PREMIUM_MEMBER")
+                //user nao co role premium thi duoc access, khi nao vao url moi check
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password")
-                .defaultSuccessUrl("/home", true).permitAll()
-                .failureUrl("/login?error=not-found").permitAll()
+                .formLogin().loginPage("/login")
+                .usernameParameter("username").passwordParameter("password")//dat ten param username vs password theo form thymeleaf
+                .defaultSuccessUrl("/home", true)
+                .failureUrl("/login?error=not-found").permitAll()// success and fail login
                 .and().logout().logoutSuccessUrl("/login").permitAll()
-                .and().exceptionHandling().accessDeniedPage("/home?info=not-premium");
+                .and().exceptionHandling().accessDeniedPage("/home?info=not-premium");//user ko co role premium chuyen den denied page
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication().withUser("admin").password("{noop}123").roles("ADMIN");
+        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(NoOpPasswordEncoder.getInstance());//data for authentication
     }
 
     @Override
@@ -35,13 +43,6 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/css/**")
                 .antMatchers("/images/**");
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication().withUser("admin").password("{noop}123").roles("ADMIN");
-        auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 }
 
