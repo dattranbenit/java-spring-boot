@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import jmaster.dao.UserDao;
@@ -38,6 +39,9 @@ class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
 
+	@Autowired
+	PasswordEncoder encoder;
+
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Override
@@ -45,7 +49,7 @@ class UserServiceImpl implements UserService {
 		User user = new User();
 		user.setRole(userDTO.getRole());
 		user.setUsername(userDTO.getUsername());
-		user.setPassword((userDTO.getPassword()));
+		user.setPassword((encoder.encode(userDTO.getPassword())));
 		userDao.insert(user);
 	}
 
