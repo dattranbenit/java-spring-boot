@@ -81,11 +81,11 @@
  *
  * For example:
  *
- *		config.embed_provider = '//example.com/api/oembed-proxy?resource-url={url}&callback={callback}';
+ *		jmaster.config.embed_provider = '//example.com/api/oembed-proxy?resource-url={url}&callback={callback}';
  *
  * By default CKEditor does not use any provider, although there is a ready-to-use URL available via Iframely:
  *
- *		config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
+ *		jmaster.config.embed_provider = '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}'
  *
  * However, this endpoint contains certain limitations, e.g. it cannot embed Google Maps content.
  * It is recommended to set up an account on the [Iframely](https://iframely.com/) service for

@@ -166,7 +166,7 @@
             // Remove autocomplete attribute to prevent native suggestions:
             that.element.setAttribute('autocomplete', 'off');
 
-            // html() deals with many types: htmlString or Element or Array or jQuery
+            // html() deals with many jmaster.types: htmlString or Element or Array or jQuery
             that.noSuggestionsContainer = $('<div class="autocomplete-no-suggestion"></div>')
                                           .html(this.options.noSuggestionNotice).get(0);
 

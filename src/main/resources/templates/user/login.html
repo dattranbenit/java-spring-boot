@@ -2,22 +2,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Trung Tam Java Master</title>
 </head>
 <body>
-	<h1>Hello Spring Boot!!!!</h1>
-	<h1>www.trungtamjava.com</h1>
-	<h1>www.javamaster.net</h1>
-	<form th:action="@{/login/result}" th:object="${userinfo}" method="post">
-		<div class="form-group">
+	<p th:if="${error} == 'not-found'" >UserName or password incorrect</p>
+	<form th:action="@{/login}" th:object="${userinfo}" method="post">
 			<label>UserName</label>
-			<input class="form-control" type="text" th:field="*{username}" />
-		</div>
-		<div class="form-group">
+			<input class="form-control" type="text" name="username" />
 			<label>Password</label>
-			<input class="form-control" type="text" th:field="*{password}" />
-		</div>
-		<input type="submit" value="Send" />
+			<input class="form-control" type="password" name="password"  />
+		<input type="submit" value="Login" />
 	</form>
 </body>
 </html>

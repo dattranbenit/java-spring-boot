@@ -2859,7 +2859,7 @@ var datetimepickerFactory = function ($) {
         args.unshift(event, delta, deltaX, deltaY);
 
         // Clearout lowestDelta after sometime to better
-        // handle multiple device types that give different
+        // handle multiple device jmaster.types that give different
         // a different lowestDelta
         // Ex: trackpad = 3 and mouse wheel = 120
         if (nullLowestDeltaTimeout) { clearTimeout(nullLowestDeltaTimeout); }

@@ -5,8 +5,13 @@ import javax.validation.Valid;
 
 import jmaster.entity.User;
 import jmaster.model.UserDTO;
+import jmaster.security.SecurityUtils;
 import jmaster.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,41 +20,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
 
-	@Autowired
-	private UserService userService;
-
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@GetMapping("/login")
-	public String hello(HttpServletRequest req, Model model) {
-		User userinfo = new User();
-		model.addAttribute("userinfo", userinfo);
+	public String login(HttpServletRequest req, @RequestParam(name="error", required = false) String error, Model model) {
+		if (error != null) {
+			model.addAttribute("error", error);
+			logger.warn(error);
+		}
 		return "user/login";
 	}
 
-	@PostMapping("/login/result")
-	public String submitForm(@Valid User user, BindingResult bindingResult, Model model) {
-		if (bindingResult.hasErrors()) {
-			model.addAttribute("result", user);
-			return "user/login";
-		} else {
-			UserDTO userinfo = userService.getByUserName(user.getUsername());
-			model.addAttribute("result", userinfo);
-			logger.trace("This is TRACE");
-			logger.debug("This is DEBUG");
-			logger.info("This is INFO");
-			logger.warn("This is WARN");
-			logger.error("This is ERROR");
-			return "user/result";
+	@GetMapping("/home")
+	public String home(@RequestParam(name="info", required = false) String info, Model model) {
+		if (!SecurityUtils.isAuthenticated()) {
+			model.addAttribute("info", info);
 		}
-	}
-
-	@GetMapping("/back")
-	public String backHome() {
-		return "redirect:/login";
+		return "/user/home";
 	}
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import jmaster.service.PhoneService;
+import jmaster.security.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +24,11 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@Autowired
-	private PhoneService phoneService;
+	@GetMapping("/user/book")
+	public String book() {
+		return "user/book";
+	}
 
-	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@GetMapping(value = "/user/users")
 	public String searchUser(HttpServletRequest request) {
@@ -45,7 +46,6 @@ public class UserController {
 
 	@PostMapping(value = "/user/add")
 	public String AdminAddUserPost(@ModelAttribute(name = "adduser") UserDTO user) {
-		user.setEnabled(true);
 		userService.insert(user);
 		return "redirect:/user/search";
 

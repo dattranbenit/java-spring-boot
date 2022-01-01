@@ -2052,7 +2052,7 @@ function mergeConfigs(parentConfig, childConfig) {
         if (hasOwnProp(parentConfig, prop) &&
                 !hasOwnProp(childConfig, prop) &&
                 isObject(parentConfig[prop])) {
-            // make sure changes to properties don't modify parent config
+            // make sure changes to properties don't modify parent jmaster.config
             res[prop] = extend({}, res[prop]);
         }
     }
@@ -3465,7 +3465,7 @@ var baseConfig = {
     meridiemParse: defaultLocaleMeridiemParse
 };
 
-// internal storage for locale config files
+// internal storage for locale jmaster.config files
 var locales = {};
 var localeFamilies = {};
 var globalLocale;
@@ -3544,9 +3544,9 @@ function defineLocale (name, config) {
         config.abbr = name;
         if (locales[name] != null) {
             deprecateSimple('defineLocaleOverride',
-                    'use moment.updateLocale(localeName, config) to change ' +
+                    'use moment.updateLocale(localeName, jmaster.config) to change ' +
                     'an existing locale. moment.defineLocale(localeName, ' +
-                    'config) should only be used for creating a new locale ' +
+                    'jmaster.config) should only be used for creating a new locale ' +
                     'See http://momentjs.com/guides/#/warnings/define-locale/ for more info.');
             parentConfig = locales[name]._config;
         } else if (config.parentLocale != null) {
@@ -3601,7 +3601,7 @@ function updateLocale(name, config) {
         // backwards compat for now: also set the locale
         getSetGlobalLocale(name);
     } else {
-        // pass null for config to unupdate, useful for tests
+        // pass null for jmaster.config to unupdate, useful for tests
         if (locales[name] != null) {
             if (locales[name].parentLocale != null) {
                 locales[name] = locales[name].parentLocale;
@@ -3774,7 +3774,7 @@ function dayOfYearFromWeekInfo(config) {
 
         // TODO: We need to take the current isoWeekYear, but that depends on
         // how we interpret now (local, utc, fixed offset). So create
-        // a now version of current config (take local/utc/offset flags, and
+        // a now version of current jmaster.config (take local/utc/offset flags, and
         // create now).
         weekYear = defaults(w.GG, config._a[YEAR], weekOfYear(createLocal(), 1, 4).year);
         week = defaults(w.W, 1);
@@ -4075,7 +4075,7 @@ function configFromStringAndFormat(config) {
         token = tokens[i];
         parsedInput = (string.match(getParseRegexForToken(token, config)) || [])[0];
         // console.log('token', token, 'parsedInput', parsedInput,
-        //         'regex', getParseRegexForToken(token, config));
+        //         'regex', getParseRegexForToken(token, jmaster.config));
         if (parsedInput) {
             skipped = string.substr(0, string.indexOf(parsedInput));
             if (skipped.length > 0) {
@@ -8360,7 +8360,7 @@ var plugins = require(31);
 
 module.exports = function(Chart) {
 
-	// Create a dictionary of chart types, to allow for extension of existing types
+	// Create a dictionary of chart jmaster.types, to allow for extension of existing jmaster.types
 	Chart.types = {};
 
 	// Store a reference to each instance - allowing us to globally resize chart instances on window resize.
@@ -8371,7 +8371,7 @@ module.exports = function(Chart) {
 	Chart.controllers = {};
 
 	/**
-	 * Initializes the given config with global and chart default values.
+	 * Initializes the given jmaster.config with global and chart default values.
 	 */
 	function initConfig(config) {
 		config = config || {};
@@ -8391,7 +8391,7 @@ module.exports = function(Chart) {
 	}
 
 	/**
-	 * Updates the config of the chart
+	 * Updates the jmaster.config of the chart
 	 * @param chart {Chart} chart to update the options for
 	 */
 	function updateConfig(chart) {
@@ -8456,7 +8456,7 @@ module.exports = function(Chart) {
 			// Add the chart instance to the global namespace
 			Chart.instances[me.id] = me;
 
-			// Define alias to the config data: `chart.data === chart.config.data`
+			// Define alias to the jmaster.config data: `chart.data === chart.jmaster.config.data`
 			Object.defineProperty(me, 'data', {
 				get: function() {
 					return me.config.data;
@@ -9780,7 +9780,7 @@ module.exports = function(Chart) {
 				var sval = source[key];
 
 				if (key === 'scales') {
-					// scale config merging is complex. Add our own function here for that
+					// scale jmaster.config merging is complex. Add our own function here for that
 					target[key] = helpers.scaleMerge(tval, sval);
 				} else if (key === 'scale') {
 					// used in polar area & radar charts since there is only one scale
@@ -11708,7 +11708,7 @@ module.exports = function(Chart) {
 		},
 
 		// These methods are ordered by lifecyle. Utilities then follow.
-		// Any function defined here is inherited by all scale types.
+		// Any function defined here is inherited by all scale jmaster.types.
 		// Any function can be extended by the scale type
 
 		mergeTicksOptions: function() {
@@ -12509,13 +12509,13 @@ var layouts = require(30);
 module.exports = function(Chart) {
 
 	Chart.scaleService = {
-		// Scale registration object. Extensions can register new scale types (such as log or DB scales) and then
+		// Scale registration object. Extensions can register new scale jmaster.types (such as log or DB scales) and then
 		// use the new chart options to grab the correct scale
 		constructors: {},
 		// Use a registration function so that we can move to an ES6 map when we no longer need to support
 		// old browsers
 
-		// Scale config defaults
+		// Scale jmaster.config defaults
 		defaults: {},
 		registerScaleType: function(type, scaleConstructor, scaleDefaults) {
 			this.constructors[type] = scaleConstructor;
@@ -12558,7 +12558,7 @@ var helpers = require(45);
  */
 module.exports = {
 	/**
-	 * Namespace to hold formatters for different types of ticks
+	 * Namespace to hold formatters for different jmaster.types of ticks
 	 * @namespace Chart.Ticks.formatters
 	 */
 	formatters: {
@@ -15055,8 +15055,8 @@ var CSS_RENDER_ANIMATION = CSS_PREFIX + 'render-animation';
 var ANIMATION_START_EVENTS = ['animationstart', 'webkitAnimationStart'];
 
 /**
- * DOM event types -> Chart.js event types.
- * Note: only events with different types are mapped.
+ * DOM event jmaster.types -> Chart.js event jmaster.types.
+ * Note: only events with different jmaster.types are mapped.
  * @see https://developer.mozilla.org/en-US/docs/Web/Events
  */
 var EVENT_TYPES = {
@@ -15088,7 +15088,7 @@ function readUsedSize(element, property) {
 
 /**
  * Initializes the canvas style and render size without modifying the canvas display size,
- * since responsiveness is handled by the controller.resize() method. The config is used
+ * since responsiveness is handled by the controller.resize() method. The jmaster.config is used
  * to determine the aspect ratio to apply in case no explicit height has been specified.
  */
 function initCanvas(canvas, config) {
@@ -15396,7 +15396,7 @@ module.exports = {
 
 		// `instanceof HTMLCanvasElement/CanvasRenderingContext2D` fails when the item is
 		// inside an iframe or when running in a protected environment. We could guess the
-		// types from their toString() value but let's keep things flexible and assume it's
+		// jmaster.types from their toString() value but let's keep things flexible and assume it's
 		// a sufficient condition if the item has a context2D which has item as `canvas`.
 		// https://github.com/chartjs/Chart.js/issues/3887
 		// https://github.com/chartjs/Chart.js/issues/4102
@@ -16015,7 +16015,7 @@ var Legend = Element.extend({
 	},
 
 	// These methods are ordered by lifecycle. Utilities then follow.
-	// Any function defined here is inherited by all legend types.
+	// Any function defined here is inherited by all legend jmaster.types.
 	// Any function can be extended by the legend type
 
 	beforeUpdate: noop,
@@ -16739,7 +16739,7 @@ module.exports = {
 
 module.exports = function(Chart) {
 
-	// Default config for a category scale
+	// Default jmaster.config for a category scale
 	var defaultConfig = {
 		position: 'bottom'
 	};

@@ -23,34 +23,12 @@ public class User implements Serializable {
 	@NonNull
 	private Long id;
 
-	@Column(name = "name")
-	private String name;
-
-	@Column(name = "enabled")
-	private Boolean enabled;
-
-	@Column(name = "age")
-	private String age;
-
 	@Column(name = "username", unique = true)
 	private String username;
 
 	@Column(name = "password")
 	private String password;
 
-	@Column(name = "gender")
-	private String gender;
-
-	@Column(name = "address")
-	private String address;
-
 	@Column(name = "role")
 	private String role;
-
-	@Column(name = "email")
-	private String email;
-
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private List<Phone> phoneList;
-
 }
