@@ -10,15 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import jmaster.model.UserDTO;
 import jmaster.service.UserService;
 
-@Controller
+//@Controller
+@RestController
 public class UserController {
 
 	@Autowired
@@ -31,12 +29,13 @@ public class UserController {
 
 
 	@GetMapping(value = "/user/users")
-	public String searchUser(HttpServletRequest request) {
+	public List<UserDTO> searchUser(HttpServletRequest request) {
 
 		List<UserDTO> userList = userService.getAll();
 		request.setAttribute("userList", userList);
 
-		return "user/users";
+//		return "user/users";
+		return userList;
 	}
 
 	@GetMapping(value = "/user/add")
@@ -45,9 +44,9 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/user/add")
-	public String AdminAddUserPost(@ModelAttribute(name = "adduser") UserDTO user) {
+	public void AdminAddUserPost(@RequestBody UserDTO user) {
 		userService.insert(user);
-		return "redirect:/user/search";
+//		return "redirect:/user/search";
 
 	}
 

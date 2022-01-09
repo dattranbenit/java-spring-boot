@@ -1,5 +1,6 @@
 package jmaster.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/user/add").permitAll()
+                .antMatchers("/user/users").permitAll()
                 .antMatchers("/user/book").hasAnyRole("PREMIUM_MEMBER")
                 //user nao co role premium thi duoc access, khi nao vao url moi check
                 .anyRequest().authenticated().and()
@@ -52,6 +54,11 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
         return bCryptPasswordEncoder;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
 
