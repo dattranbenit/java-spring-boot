@@ -32,13 +32,10 @@ class EmailServiceImpl implements EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
-
     @Autowired
     private SpringTemplateEngine templateEngine;
-
     @Autowired
     private ModelMapper modelMapper;
-
     @Override
     public void sendEmail(MessageDTO messageDTO) {
         try {
@@ -61,22 +58,7 @@ class EmailServiceImpl implements EmailService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-
         Message message = modelMapper.map(messageDTO, Message.class);
-
-//        Message message = new Message();
-//        message.setFrom(messageDTO.getFrom());
-//        message.setSubject(messageDTO.getSubject());
-//        message.setContent(messageDTO.getContent());
-//        message.setReceiver(messageDTO.getReceiver());
-//        message.setTo(messageDTO.getTo());
-
-//        logger.warn(message.getContent());
-//        logger.warn(message.getFrom());
-//        logger.warn(message.getReceiver());
-//        logger.warn(message.getSubject());
-//        logger.warn(message.getTo());
-
         emailDao.add(message);
     }
 
