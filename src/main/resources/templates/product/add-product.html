@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html layout:decorator="admin/template">
+<head>
+<meta charset="UTF-8">
+<title>users</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+	<h1>Add product</h1>
+	<form th:action="@{/product/add}" th:object="${addProduct}" method="post">
+		<div>
+			<label>Name</label><input type="text" name="name" placeholder="name" required="required" />
+		</div>
+		<div>
+			<label>Price</label><input type="text" name="price" placeholder="price" required="required" />
+		</div>
+		<div>
+			<button type="submit">ADD</button>
+		</div>
+	</form>
+</body>
+</html>

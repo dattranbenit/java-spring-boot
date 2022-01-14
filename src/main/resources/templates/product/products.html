@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html layout:decorator="admin/template">
+<head>
+    <meta charset="UTF-8">
+    <title>users</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+<p>Danh sach products</p>
+<a th:href="@{/product/add}">Add Product</a>
+<a th:href="@{/view-cart}">View Cart</a>
+<table border="1">
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Price</td>
+    </tr>
+    <tr th:each="product:${productList}">
+        <td th:text="${product.id}"></td>
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td>
+            <form th:action="@{'/order/add-to-cart?product_id='+${product.id}}" method="post">
+                <button type="submit">ADD TO CART</button>
+            </form>
+        </td>
+        </tr>
+</table>
+
+</body>
+</html>

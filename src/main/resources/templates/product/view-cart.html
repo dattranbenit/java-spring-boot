@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html layout:decorator="admin/template">
+<head>
+    <meta charset="UTF-8">
+    <title>users</title>
+</head>
+<body layout:fragment="content" th:remove="tag">
+<p>Danh sach products</p>
+<a th:href="@{/product/add}">Add Product</a>
+<table border="1">
+    <tr>
+        <td>Quantity</td>
+        <td>Name</td>
+        <td>Price</td>
+    </tr>
+    <tr th:each="product:${cart}">
+        <td th:text="${product.quantity}"></td>
+        <td th:text="${product.productDTO.name}"></td>
+        <td th:text="${product.productDTO.price}"></td>
+        <td>
+            <a th:href="@{'/order/delete?product_id='+${product.productDTO.id}}">Delete All</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
