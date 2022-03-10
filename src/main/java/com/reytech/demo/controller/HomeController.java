@@ -25,10 +25,11 @@ public class HomeController {
 	@PostMapping("/form/result")
 	public String submitForm(@Valid Student student, BindingResult bindingResult, Model model) {
 		if (bindingResult.hasErrors()) {
+			// coi moi trang trong template la mot component, truyen value vao component
 			model.addAttribute("student", student);
 			model.addAttribute("gender_value", Gender.values());
 			model.addAttribute("subject_value", Subject.values());
-			return "form";
+			return "form";// tra ve component vs value duoc truyen vao, neu ko thi chi la component don thuan
 		} else {
 			model.addAttribute("result", student);
 			return "result";
