@@ -51,6 +51,5 @@ public class User implements Serializable {
 	private String email;
 
 	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-	private List<Phone> phoneList;
-
+	private List<Phone> phoneList; // truy van nguoc lai
 }
