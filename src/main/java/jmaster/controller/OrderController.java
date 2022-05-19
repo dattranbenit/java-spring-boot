@@ -4,6 +4,8 @@ import jmaster.model.OrderDTO;
 import jmaster.model.OrderItemDTO;
 import jmaster.model.ProductDTO;
 import jmaster.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @Controller
 public class OrderController {
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
+
     @Autowired
     ProductService productService;
 
@@ -69,13 +73,17 @@ public class OrderController {
     ) {
         ProductDTO productDTO = productService.get(product_id);
         OrderDTO orderDTO = (OrderDTO) session.getAttribute("cart");
-        List<OrderItemDTO> orderItemDTOS = orderDTO.getOrderItemDTOS();
+        List<OrderItemDTO> orderItemDTOS = orderDTO.getOrderItemDTOS();//gan gia tri ket noi vs doi tuong
 //        for (OrderItemDTO orderItemDTO : orderItemDTOS) {
 //            if (orderItemDTO.getProductDTO().getId().equals(productDTO.getId())) {
 //                orderItemDTOS.remove(orderItemDTO);
 //            }
 //        }
+
+        //logger orderDTO.size()
         orderItemDTOS.removeIf(orderItemDTO -> orderItemDTO.getProductDTO().getId().equals(productDTO.getId()));
+        //logger orderDTO.size() - 1
+        //tu dong thay doi gia tri orderDTO vs session ko can set lai, do da gan gia tri ket noi voi doi tuong
         return "redirect:/view-cart";
     }
 
